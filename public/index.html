@@ -1,15 +1,13 @@
 <html>
     <body>
-        <div id="home"></div>
-        <form
-            name="user"
-            action="/action_page.php"
-            onsubmit="return validateForm()"
-            method="post"
-        >
-            Name: <input type="text" name="fname" />
-            <input type="submit" value="Submit" />
-        </form>
+        <div id="home">
+            <form id = 'user'>
+                <label for="uname">username:</label><br>
+                <input type="text" id="uname" name="uname" ><br>
+                <input type="submit" value="Ir">
+            </form>
+        </div>
+        
         <script src="index.js"></script>
     </body>
 </html>
