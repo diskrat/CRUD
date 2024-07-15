@@ -2,50 +2,27 @@
   "posts": [
     {
       "id": 1,
-      "title": "a title",
-      "views": 100
+      "title": "a title"
     },
     {
       "id": 2,
-      "title": "another title",
-      "views": 200
-    },
-    {
-      "id": 3
-    },
-    {
-      "id": 4
-    },
-    {
-      "id": 5
-    },
-    {
-      "id": 6
+      "title": "another title"
     },
     {
       "title": "new",
-      "views": 0,
       "id": 7
     },
     {
       "title": "fadfasdf",
-      "views": 0,
       "id": 8
     },
     {
       "title": "fdafsd",
-      "views": 0,
       "id": 9
     },
     {
       "title": "sdfsdaf",
-      "views": 0,
       "id": 10
-    },
-    {
-      "title": "fdsa",
-      "views": 0,
-      "id": 11
     }
   ],
   "comments": [

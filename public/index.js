@@ -7,7 +7,6 @@ async function getPosts() {
     let response = await fetch('http://localhost:3000/posts');
     let data = await response.json();
     data = data.reverse()
-    console.log(data)
     //Criar o Form
     const newPublish = document.createElement('div')
     newPublish.setAttribute('id', 'publish')
@@ -44,7 +43,7 @@ async function getPosts() {
 
     const feed = document.getElementById('feed')
     feed.innerHTML += data.map((post) => {
-        if (post.title && hasOwnProperty) { return `<div onclick='getPostDetais(${post.id})' id=${post.id}><h1>${post.title}</h1> <p>${post.views} views</p></div> ` }
+        if (post.title) { return `<div onclick='getPostDetais(${post.id})' id=${post.id}><h1>${post.title}</h1></div> ` }
     }).join('')
 
 }
@@ -52,7 +51,6 @@ async function getPostDetais(id) {
     //Fetch
     let response = await fetch(`http://localhost:3000/posts/${id}?_embed=comments`);
     let data = await response.json();
-    console.log(data)
     //Div principal
     const newDiv = document.createElement('div')
     newDiv.setAttribute('id', 'post')
@@ -67,7 +65,7 @@ async function getPostDetais(id) {
 
     //elemento do Titulo
     const post = document.getElementById('post')
-    post.innerHTML = `<h1>${data.title}</h1> <p>${data.views}</p>`
+    post.innerHTML = `<h1>${data.title}</h1> `
 
     //Elemento dos comentarios
     const addComments = document.createElement('div')
@@ -88,6 +86,14 @@ async function getPostDetais(id) {
     newGoBack.addEventListener('click', fromGoBack)
     pagina.appendChild(newGoBack)
 
+    //
+    const deleteIcon = document.createElement('i')
+    deleteIcon.setAttribute('class', 'material-symbols-outlined')
+    deleteIcon.setAttribute('id', 'deleteIcon')
+    deleteIcon.innerHTML = 'delete'
+    deleteIcon.addEventListener('click', function () { deletePost(data) })
+    pagina.appendChild(deleteIcon)
+
 
 
 }
@@ -96,17 +102,26 @@ function fromGoBack() {
     pagina.removeChild(post)
     pagina.removeChild(comments)
     pagina.removeChild(arrow)
+    pagina.removeChild(deleteIcon)
+    getPosts()
+}
+function deletePost(data) {
+    data.comments.forEach((comment) => { fetch(`http://localhost:3000/comments/${comment.id}`, { method: 'DELETE' }) })
+    fetch(`http://localhost:3000/posts/${data.id}`, { method: 'DELETE' })
+    pagina.removeChild(post)
+    pagina.removeChild(comments)
+    pagina.removeChild(arrow)
+    pagina.removeChild(deleteIcon)
     getPosts()
 }
 async function newPost(title) {
     if (title) {
         let send = {
             title: title,
-            views: 0
         }
         const response = await fetch('http://localhost:3000/posts', { method: 'POST', body: JSON.stringify(send), headers: { "Content-type": "application/json; charset=UTF-8" } })
         const data = await response.json()
-        console.log(data)
+        getPostDetais(data.id)
     }
 }
 getPosts()
