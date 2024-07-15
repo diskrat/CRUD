@@ -1,23 +1,112 @@
-function main() {
-  fetch(" http://localhost:3000/posts/").then(function (response) {
-    if (response.ok) {
-      return response.json();
-    } else {
-      return Promise.reject(response);
-    }
-  });
-  fetch("http://localhost:3000/posts/", { method: "POST" }).then(
-    function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        return Promise.reject(response);
-      }
-    },
-  );
-}
-whole_ = document.getElementById("home");
-form_ = document.getElementById("user");
+///////////form prevent default para fazer
 
-form_.addEventListener("submit", (e) => e.preventDefault());
-//main();
+const pagina = document.getElementById('page')
+
+async function getPosts() {
+    //Fetch
+    let response = await fetch('http://localhost:3000/posts');
+    let data = await response.json();
+    data = data.reverse()
+    console.log(data)
+    //Criar o Form
+    const newPublish = document.createElement('div')
+    newPublish.setAttribute('id', 'publish')
+    pagina.appendChild(newPublish)
+
+    const publish = document.getElementById('publish')
+
+    const newForm = document.createElement('form')
+    newForm.setAttribute('id', 'pinfo')
+    publish.appendChild(newForm)
+
+    const form = document.getElementById('pinfo')
+
+    const newContent = document.createElement('input')
+    newContent.setAttribute('type', 'text')
+    newContent.setAttribute('id', 'content')
+    form.appendChild(newContent)
+
+    const content = document.getElementById('content')
+
+    const newButton = document.createElement('input')
+    newButton.setAttribute('type', 'submit')
+    newButton.setAttribute('value', 'Publicar')
+    newButton.setAttribute('id', 'enviar')
+    form.appendChild(newButton)
+
+    const button = document.getElementById('enviar')
+    button.addEventListener('click', (e) => { e.preventDefault(); newPost(content.value) })
+
+    //Criar o Feed
+    const newFeed = document.createElement('div')
+    newFeed.setAttribute('id', 'feed')
+    pagina.appendChild(newFeed)
+
+    const feed = document.getElementById('feed')
+    feed.innerHTML += data.map((post) => {
+        if (post.title && hasOwnProperty) { return `<div onclick='getPostDetais(${post.id})' id=${post.id}><h1>${post.title}</h1> <p>${post.views} views</p></div> ` }
+    }).join('')
+
+}
+async function getPostDetais(id) {
+    //Fetch
+    let response = await fetch(`http://localhost:3000/posts/${id}?_embed=comments`);
+    let data = await response.json();
+    console.log(data)
+    //Div principal
+    const newDiv = document.createElement('div')
+    newDiv.setAttribute('id', 'post')
+
+
+    //Remocao dos elementos antigos e adicao do novo elemento 
+    const publish = document.getElementById('publish')
+    const feed = document.getElementById('feed')
+    pagina.removeChild(publish)
+    pagina.removeChild(feed)
+    pagina.appendChild(newDiv)
+
+    //elemento do Titulo
+    const post = document.getElementById('post')
+    post.innerHTML = `<h1>${data.title}</h1> <p>${data.views}</p>`
+
+    //Elemento dos comentarios
+    const addComments = document.createElement('div')
+    addComments.setAttribute('id', 'comments')
+    pagina.appendChild(addComments)
+
+    const comments = document.getElementById('comments')
+    comments.innerHTML = data.comments.map((comment) => `<p>${comment.text}</p>`).join('')
+
+    //Elemento form de novo comentario
+
+
+    //Icone para voltar ao inicio
+    const newGoBack = document.createElement('i')
+    newGoBack.setAttribute('class', 'material-symbols-outlined')
+    newGoBack.setAttribute('id', 'arrow')
+    newGoBack.innerHTML = 'arrow_back'
+    newGoBack.addEventListener('click', fromGoBack)
+    pagina.appendChild(newGoBack)
+
+
+
+}
+
+function fromGoBack() {
+    pagina.removeChild(post)
+    pagina.removeChild(comments)
+    pagina.removeChild(arrow)
+    getPosts()
+}
+async function newPost(title) {
+    if (title) {
+        let send = {
+            title: title,
+            views: 0
+        }
+        const response = await fetch('http://localhost:3000/posts', { method: 'POST', body: JSON.stringify(send), headers: { "Content-type": "application/json; charset=UTF-8" } })
+        const data = await response.json()
+        console.log(data)
+    }
+}
+getPosts()
