@@ -1,5 +1,3 @@
-///////////form prevent default para fazer
-
 const pagina = document.getElementById('page')
 
 async function getPosts() {
@@ -84,7 +82,7 @@ async function getPostDetais(id) {
 
 
 
-    //
+    //icone delete
     const deleteIcon = document.createElement('i')
     deleteIcon.setAttribute('class', 'material-symbols-outlined button right')
     deleteIcon.setAttribute('id', 'deleteIcon')
@@ -92,6 +90,7 @@ async function getPostDetais(id) {
     deleteIcon.addEventListener('click', function () { deletePost(data) })
     pagina.appendChild(deleteIcon)
 
+    //icone edit
     const editIcon = document.createElement('i')
     editIcon.setAttribute('class', 'material-symbols-outlined button right')
     editIcon.setAttribute('id', 'editIcon')
@@ -110,6 +109,7 @@ function fromGoBack() {
     pagina.removeChild(deleteIcon)
     getPosts()
 }
+
 function deletePost(data) {
     fetch(`http://localhost:3000/posts/${data.id}`, { method: 'DELETE' })
     pagina.removeChild(post)
