@@ -7,7 +7,7 @@
 }
 
 .card {
-    width: 90.99999%;
+    width: 90%;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     border-radius: 4px;
     color: #000 !important;
@@ -19,6 +19,7 @@
 
 .input {
     width: 90%;
+    border-radius: 4px;
     border: 1px solid #ccc !important;
     padding: 8px 16px;
     margin: 3px
@@ -36,5 +37,13 @@
     background-color: #607d8b;
     text-align: center;
     cursor: pointer;
-    white-space: nowra
+}
+
+.left {
+    float: left !important;
+    margin-left: 14px
+}
+
+.right {
+    float: right !important
 }
