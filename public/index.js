@@ -16,6 +16,7 @@ async function getPosts() {
 
     const newForm = document.createElement('form')
     newForm.setAttribute('id', 'pinfo')
+    newForm.setAttribute('class', 'card')
     publish.appendChild(newForm)
 
     const form = document.getElementById('pinfo')
@@ -23,6 +24,7 @@ async function getPosts() {
     const newContent = document.createElement('input')
     newContent.setAttribute('type', 'text')
     newContent.setAttribute('id', 'content')
+    newContent.setAttribute('class', 'input')
     form.appendChild(newContent)
 
     const content = document.getElementById('content')
@@ -31,6 +33,7 @@ async function getPosts() {
     newButton.setAttribute('type', 'submit')
     newButton.setAttribute('value', 'Publicar')
     newButton.setAttribute('id', 'enviar')
+    newButton.setAttribute('class', 'button')
     form.appendChild(newButton)
 
     const button = document.getElementById('enviar')
@@ -43,7 +46,7 @@ async function getPosts() {
 
     const feed = document.getElementById('feed')
     feed.innerHTML += data.map((post) => {
-        if (post.title) { return `<div onclick='getPostDetais(${post.id})' id=${post.id}><h1>${post.title}</h1></div> ` }
+        if (post.title) { return `<div class='card'onclick='getPostDetais(${post.id})' id=${post.id}><p>${post.title}</p></div> ` }
     }).join('')
 
 }
@@ -65,7 +68,7 @@ async function getPostDetais(id) {
 
     //elemento do Titulo
     const post = document.getElementById('post')
-    post.innerHTML = `<h1>${data.title}</h1> `
+    post.innerHTML = `<p>${data.title}</p> `
 
     //Elemento dos comentarios
     const addComments = document.createElement('div')
